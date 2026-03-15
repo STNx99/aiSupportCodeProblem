@@ -1,0 +1,28 @@
+{
+  "name": "ai_j2ee",
+  "version": "1.0.0",
+  "description": "HTTPS mentoring API for algorithm and backend coding guidance using Gemini",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "bun dist/server.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "^1.45.0",
+    "@hono/node-server": "^1.19.11",
+    "dotenv": "^17.3.1",
+    "hono": "^4.12.8",
+    "selfsigned": "^5.5.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  }
+}
