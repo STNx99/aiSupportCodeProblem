@@ -117,6 +117,11 @@ Health check:
 
 `https://localhost:8443/health`
 
+Railway note:
+
+- In production (or Railway), the app listens on HTTP internally and Railway handles HTTPS at the edge.
+- For local development, the app keeps HTTPS with self-signed cert support.
+
 ## Notes
 
 - The backend enforces mentoring behavior via system instruction.

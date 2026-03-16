@@ -8,8 +8,24 @@ import { ensureHttpsMaterial } from "./utils/httpsMaterial";
 
 const certPath = path.resolve(process.cwd(), env.HTTPS_CERT_PATH);
 const keyPath = path.resolve(process.cwd(), env.HTTPS_KEY_PATH);
+const isProduction = process.env.NODE_ENV === "production";
+const isRailway = Boolean(process.env.RAILWAY_ENVIRONMENT);
 
 const start = async () => {
+  if (isProduction || isRailway) {
+    serve(
+      {
+        fetch: app.fetch,
+        hostname: env.HOST,
+        port: env.PORT
+      },
+      (info) => {
+        console.log(`HTTP mentor API running at http://${env.HOST}:${info.port}`);
+      }
+    );
+    return;
+  }
+
   await ensureHttpsMaterial(certPath, keyPath);
 
   serve(
