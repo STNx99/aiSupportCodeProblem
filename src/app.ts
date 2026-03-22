@@ -19,7 +19,7 @@ app.get("/health", (c) => {
   });
 });
 
-app.post("/api/ai/guide", async (c) => {
+app.post("/api/mentor/guide", async (c) => {
   let requestBody: unknown;
 
   try {
