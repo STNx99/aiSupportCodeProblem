@@ -5,12 +5,13 @@ import { GuideRequest } from "../schemas/guideRequest";
 
 const ai = new GoogleGenAI({ apiKey: env.GEMINI_CHAT_SUPPORT });
 
-const buildUserPrompt = ({ question, context, language }: GuideRequest) => {
+const buildUserPrompt = ({ question, context, programmingLanguage, language }: GuideRequest) => {
   return [
     language === "vi"
       ? "Hãy hướng dẫn cách tư duy để giải quyết câu hỏi dưới đây. Không được đưa full code lời giải."
       : "Guide the thinking process for the following problem. Do not provide full solution code.",
     "",
+    programmingLanguage ? `Programming Language: ${programmingLanguage}` : "",
     `Question:\n${question}`,
     context ? `\nDeveloper Context:\n${context}` : ""
   ]
