@@ -1,6 +1,8 @@
 # AI Mentor Backend (HonoJS + TypeScript + HTTPS + Gemini)
 
-Backend API that receives a coding question and returns guided problem-solving steps (without full solution code).
+Backend API that provides:
+- **Mentor Guidance**: Receives a coding question and returns guided problem-solving steps (without full solution code)
+- **Practice Questions**: Generates 5 multiple-choice questions for coding problems to test understanding
 
 ## 0) Install Bun (once)
 
@@ -69,7 +71,7 @@ bun run start
 
 ### Mentor Guide
 
-`POST /api/v1/mentor/guide`
+`POST /api/mentor/guide`
 
 Request body:
 
@@ -91,6 +93,55 @@ Response body:
   "timestamp": "2026-03-15T00:00:00.000Z"
 }
 ```
+
+### Practice Questions Generator
+
+`POST /api/ai-practice-problem`
+
+Generates 5 multiple-choice questions for a given coding problem.
+
+Request body:
+
+```json
+{
+  "problemTitle": "Two Sum",
+  "problemCode": "Given an array of integers nums and an integer target, return the indices of the two numbers that add up to the target.",
+  "difficulty": "easy",
+  "language": "en",
+  "programmingLanguage": "JavaScript"
+}
+```
+
+Response body:
+
+```json
+{
+  "questions": [
+    {
+      "id": 1,
+      "questionText": "What is the optimal time complexity for solving this problem using a hash map?",
+      "explanation": "A hash map approach gives O(n) time complexity because we iterate through the array once...",
+      "options": [
+        {"id": 1, "text": "O(n²)", "isCorrect": false},
+        {"id": 2, "text": "O(n)", "isCorrect": true},
+        {"id": 3, "text": "O(n log n)", "isCorrect": false},
+        {"id": 4, "text": "O(log n)", "isCorrect": false}
+      ]
+    },
+    // ... 4 more questions
+  ],
+  "model": "gemini-3.1-flash-lite",
+  "timestamp": "2026-03-27T00:00:00.000Z",
+  "count": 5
+}
+```
+
+**Query Parameters:**
+- `problemTitle` (required): Title of the coding problem
+- `problemCode` (required): Problem description or code
+- `difficulty` (optional): `easy`, `medium`, or `hard`
+- `language` (optional): `en` or `vi` (default: `en`)
+- `programmingLanguage` (optional): Programming language (e.g., `JavaScript`, `Python`, `Java`)
 
 ## 6) Deploy with Docker
 
@@ -126,5 +177,7 @@ Railway note:
 ## Notes
 
 - The backend enforces mentoring behavior via system instruction.
-- Endpoint returns strategy guidance, not full algorithm implementation code.
+- **Mentor Guide** endpoint returns strategy guidance, not full algorithm implementation code.
+- **Practice Questions** endpoint generates exactly 5 MC questions with 4 options each, testing different aspects of the problem.
+- Questions support both English and Vietnamese languages.
 - If primary model is unavailable, backend retries with fallback model.
